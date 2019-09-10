@@ -4,14 +4,19 @@
 #
 Name     : mvn-commons-dbcp
 Version  : 1.4
-Release  : 3
+Release  : 4
 URL      : https://repo1.maven.org/maven2/commons-dbcp/commons-dbcp/1.4/commons-dbcp-1.4.jar
 Source0  : https://repo1.maven.org/maven2/commons-dbcp/commons-dbcp/1.4/commons-dbcp-1.4.jar
-Source1  : https://repo1.maven.org/maven2/commons-dbcp/commons-dbcp/1.4/commons-dbcp-1.4.pom
+Source1  : https://repo.maven.apache.org/maven2/org/apache/commons/commons-dbcp2/2.4.0/commons-dbcp2-2.4.0.jar
+Source2  : https://repo.maven.apache.org/maven2/org/apache/commons/commons-dbcp2/2.4.0/commons-dbcp2-2.4.0.pom
+Source3  : https://repo1.maven.org/maven2/commons-dbcp/commons-dbcp/1.4/commons-dbcp-1.4.pom
 Summary  : No detailed summary available
 Group    : Development/Tools
 License  : Apache-2.0
 Requires: mvn-commons-dbcp-data = %{version}-%{release}
+Requires: mvn-commons-dbcp-license = %{version}-%{release}
+BuildRequires : apache-maven
+BuildRequires : buildreq-mvn
 
 %description
 No detailed description available
@@ -24,16 +29,33 @@ Group: Data
 data components for the mvn-commons-dbcp package.
 
 
+%package license
+Summary: license components for the mvn-commons-dbcp package.
+Group: Default
+
+%description license
+license components for the mvn-commons-dbcp package.
+
+
 %prep
+%setup -q -n META-INF
 
 %build
 
 %install
+mkdir -p %{buildroot}/usr/share/package-licenses/mvn-commons-dbcp
+cp LICENSE.txt %{buildroot}/usr/share/package-licenses/mvn-commons-dbcp/LICENSE.txt
 mkdir -p %{buildroot}/usr/share/java/.m2/repository/commons-dbcp/commons-dbcp/1.4
-cp %{SOURCE0} %{buildroot}/usr/share/java/.m2/repository/commons-dbcp/commons-dbcp/1.4
+cp %{SOURCE0} %{buildroot}/usr/share/java/.m2/repository/commons-dbcp/commons-dbcp/1.4/commons-dbcp-1.4.jar
+
+mkdir -p %{buildroot}/usr/share/java/.m2/repository/org/apache/commons/commons-dbcp2/2.4.0
+cp %{SOURCE1} %{buildroot}/usr/share/java/.m2/repository/org/apache/commons/commons-dbcp2/2.4.0/commons-dbcp2-2.4.0.jar
+
+mkdir -p %{buildroot}/usr/share/java/.m2/repository/org/apache/commons/commons-dbcp2/2.4.0
+cp %{SOURCE2} %{buildroot}/usr/share/java/.m2/repository/org/apache/commons/commons-dbcp2/2.4.0/commons-dbcp2-2.4.0.pom
 
 mkdir -p %{buildroot}/usr/share/java/.m2/repository/commons-dbcp/commons-dbcp/1.4
-cp %{SOURCE1} %{buildroot}/usr/share/java/.m2/repository/commons-dbcp/commons-dbcp/1.4
+cp %{SOURCE3} %{buildroot}/usr/share/java/.m2/repository/commons-dbcp/commons-dbcp/1.4/commons-dbcp-1.4.pom
 
 
 %files
@@ -43,3 +65,9 @@ cp %{SOURCE1} %{buildroot}/usr/share/java/.m2/repository/commons-dbcp/commons-db
 %defattr(-,root,root,-)
 /usr/share/java/.m2/repository/commons-dbcp/commons-dbcp/1.4/commons-dbcp-1.4.jar
 /usr/share/java/.m2/repository/commons-dbcp/commons-dbcp/1.4/commons-dbcp-1.4.pom
+/usr/share/java/.m2/repository/org/apache/commons/commons-dbcp2/2.4.0/commons-dbcp2-2.4.0.jar
+/usr/share/java/.m2/repository/org/apache/commons/commons-dbcp2/2.4.0/commons-dbcp2-2.4.0.pom
+
+%files license
+%defattr(0644,root,root,0755)
+/usr/share/package-licenses/mvn-commons-dbcp/LICENSE.txt
